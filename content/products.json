@@ -1,12 +1,3 @@
 {
-  "products": [
-    {
-      "category": "Colecionáveis",
-      "name": "Teste",
-      "description": "Teste",
-      "price": "Teste",
-      "marketplace_url": "https://www.mercadolivre.com.br/50-folhas-de-acetato-pet-transparente-a4-21x30cm-020mm/up/MLBU1931512785?pdp_filters=item_id:MLB2007839326#is_advertising=true&searchVariation=MLBU1931512785&backend_model=search-backend&be_origin=backend&position=2&search_layout=grid&type=pad&tracking_id=330d7d67-3151-4175-9bb7-998cf2fcc408&ad_domain=VQCATCORE_LST&ad_position=2&ad_click_id=YjBhNDBhYmItNjU4Yi00NGEzLTllZmUtZDUwZTYxMjc2YmNj",
-      "tag": "Teste"
-    }
-  ]
+  "products": []
 }
