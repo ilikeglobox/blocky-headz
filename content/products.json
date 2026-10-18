@@ -1,22 +1,12 @@
 {
   "products": [
     {
-      "name": "Seu próximo colecionável",
-      "category": "Novidades",
-      "description": "Substitua este exemplo pelo seu produto real no painel administrativo.",
-      "price": "R$ 0,00",
-      "image": "",
-      "marketplace_url": "",
-      "tag": "EXEMPLO"
-    },
-    {
-      "name": "Uma peça para sua coleção",
       "category": "Colecionáveis",
-      "description": "Adicione fotos, detalhes e o link do anúncio no Mercado Livre.",
-      "price": "R$ 0,00",
-      "image": "",
-      "marketplace_url": "",
-      "tag": "DESTAQUE"
+      "name": "Teste",
+      "description": "Teste",
+      "price": "Teste",
+      "marketplace_url": "Teste",
+      "tag": "Teste"
     }
   ]
 }
