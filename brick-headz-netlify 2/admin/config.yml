@@ -1,0 +1,33 @@
+backend:
+  name: git-gateway
+  branch: main
+
+media_folder: "assets/products"
+public_folder: "/assets/products"
+
+locale: "pt"
+
+site_url: /
+display_url: /
+
+collections:
+  - name: "catalogo"
+    label: "Catálogo de produtos"
+    files:
+      - name: "produtos"
+        label: "Produtos da vitrine"
+        file: "content/products.json"
+        format: "json"
+        fields:
+          - label: "Produtos"
+            name: "products"
+            widget: "list"
+            summary: "{{fields.name}} — {{fields.price}}"
+            fields:
+              - { label: "Nome do produto", name: "name", widget: "string" }
+              - { label: "Categoria", name: "category", widget: "string", default: "Colecionáveis" }
+              - { label: "Descrição", name: "description", widget: "text", required: false }
+              - { label: "Preço exibido", name: "price", widget: "string", required: false, hint: "Ex.: R$ 149,90" }
+              - { label: "Foto do produto", name: "image", widget: "image", required: false }
+              - { label: "Link do anúncio no Mercado Livre", name: "marketplace_url", widget: "string", required: false, hint: "Cole a URL completa do anúncio" }
+              - { label: "Etiqueta", name: "tag", widget: "string", required: false, hint: "Ex.: LANÇAMENTO, DESTAQUE" }
