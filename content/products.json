@@ -1,3 +1,12 @@
 {
-  "products": []
+  "products": [
+    {
+      "category": "Colecionáveis",
+      "name": "test",
+      "description": "test",
+      "price": "test",
+      "marketplace_url": "test",
+      "tag": "test"
+    }
+  ]
 }
