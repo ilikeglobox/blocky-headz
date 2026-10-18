@@ -1,0 +1,184 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#e92d24">
+  <meta name="description" content="Brick-Headz — figuras colecionáveis, novidades e achados para sua coleção.">
+  <!-- Netlify Identity envia confirmações para a raiz do site por padrão.
+       Reencaminhamos tokens de autenticação ao CMS para que o widget os processe. -->
+  <script>
+    (function () {
+      var hash = window.location.hash || "";
+      if (/(^|#)(confirmation_token|invite_token|recovery_token|email_change_token)=/.test(hash)) {
+        window.location.replace("/admin/" + hash);
+      }
+    })();
+  </script>
+  <title>Brick-Headz | Colecione o extraordinário</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800;900&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <div class="announcement">FIGURAS, FANDOMS E ACHADOS PARA SUA PRÓXIMA COLEÇÃO</div>
+  <header class="site-header">
+    <a class="brand" href="/" aria-label="Brick-Headz início"><img src="/assets/logo.png" alt="Brick-Headz"></a>
+    <nav class="desktop-nav" aria-label="Navegação principal">
+      <a href="#produtos">Produtos</a><a href="#sobre">Quem somos</a><a href="#historia">Nossa história</a>
+    </nav>
+    <a class="header-cta" href="#sobre">NOSSA HISTÓRIA <span>↘</span></a>
+  </header>
+  <main>
+    <section class="hero">
+      <div class="hero-copy">
+        <p class="eyebrow"><span class="eyebrow-dot"></span> PARA QUEM É FÃ DE VERDADE</p>
+        <h1>SUA PRÓXIMA<br><em>OBSESSÃO</em><br>COMEÇA AQUI.</h1>
+        <p class="hero-description">Personagens que você ama. Peças que merecem destaque. Encontre o próximo tesouro da sua coleção.</p>
+        <a class="button button-dark" href="#sobre">CONHEÇA A BRICK-HEADZ <span>↘</span></a>
+        <div class="hero-note"><span class="note-star">✳</span><span>Descubra. Escolha. Colecione.</span></div>
+      </div>
+      <div class="hero-art" aria-label="Arte gráfica da Brick-Headz">
+        <div class="art-sun"></div><div class="art-ring ring-one"></div><div class="art-ring ring-two"></div>
+        <div class="art-label label-top">COLLECT<br>WHAT YOU LOVE</div>
+        <div class="art-block block-red"></div><div class="art-block block-yellow"></div><div class="art-block block-black"></div>
+        <div class="art-sticker">FAN<br>POWER<br><b>★</b></div>
+        <div class="art-bottom">BRICK-HEADZ <span>EST. FOR FANS</span></div>
+      </div>
+    </section>
+    <section class="ticker" aria-label="Destaques"><div>FANDOMS <b>✳</b> COLECIONÁVEIS <b>✳</b> NOVAS DESCOBERTAS <b>✳</b> SUA PRÓXIMA PEÇA <b>✳</b> FANDOMS <b>✳</b> COLECIONÁVEIS <b>✳</b></div></section>
+    <section id="produtos" class="products-section section-wrap" aria-labelledby="products-title">
+      <div class="section-heading">
+        <div><p class="eyebrow">ESCOLHA SUA PRÓXIMA PEÇA</p><h2 id="products-title">NOSSA <span>COLEÇÃO.</span></h2></div>
+        <p class="section-intro">Conheça os produtos disponíveis na Brick-Headz e encontre o próximo destaque da sua coleção.</p>
+      </div>
+      <div id="product-grid" class="product-grid" aria-live="polite">
+        <p class="empty-state">Carregando produtos...</p>
+      </div>
+      <p id="products-status" class="products-status" role="status"></p>
+    </section>
+    <section id="sobre" class="about">
+      <div class="about-mark"><img src="/assets/logo.png" alt="Logo Brick-Headz"><small>DESDE 2026</small></div>
+      <div class="about-copy"><p class="eyebrow">QUEM SOMOS · NOSSA HISTÓRIA</p><h2>UMA IDEIA.<br><span>UM GRUPO DE AMIGOS.</span></h2>
+      <p>A Brick-Headz começou em 2026 com uma ideia compartilhada entre amigos: criar bonecos colecionáveis de design quadrado e minimalista, inspirados em figuras de vinil. O que começou como imaginação logo virou um projeto feito com as próprias mãos.</p>
+      <p>Entre os 11 e 13 anos, começamos a modelar nossos bonecos em 3D e a desenvolver a identidade da marca. Fabricamos os primeiros modelos, aperfeiçoamos o acabamento manualmente e aprendemos com cada tentativa. Também criamos uma embalagem minimalista de papelão, com nosso logotipo em destaque e pensada para valorizar cada boneco.</p>
+      <p>Depois vieram as primeiras vendas — e a certeza de que uma ideia entre amigos podia se transformar em algo real. Temos orgulho da nossa trajetória, da persistência e da coragem de transformar criatividade em realidade.</p>
+      <a href="#historia" class="text-link">CONHEÇA NOSSA TRAJETÓRIA <span>↘</span></a></div>
+    </section>
+    <section id="historia" class="story section-wrap">
+      <div class="story-heading"><p class="eyebrow">O INÍCIO DE UMA MEMÓRIA</p><h2>TODA GRANDE HISTÓRIA<br><span>COMEÇA COM UMA IDEIA.</span></h2></div>
+      <div class="story-timeline">
+        <article><span>01</span><div><h3>A IDEIA</h3><p>Criar bonecos colecionáveis com design quadrado e minimalista, inspirados em figuras de vinil.</p></div></article>
+        <article><span>02</span><div><h3>OS PRIMEIROS PASSOS</h3><p>Começamos a modelar os bonecos em 3D e a criar a identidade da marca, entre os 11 e 13 anos.</p></div></article>
+        <article><span>03</span><div><h3>A FABRICAÇÃO</h3><p>Fabricamos nossos primeiros bonecos e melhoramos o acabamento manualmente, aprendendo com cada tentativa.</p></div></article>
+        <article><span>04</span><div><h3>A EMBALAGEM</h3><p>Criamos uma caixa minimalista de papelão, com o logotipo em destaque e uma apresentação pensada para valorizar o boneco.</p></div></article>
+        <article><span>05</span><div><h3>AS VENDAS</h3><p>Começamos a vender nossos bonecos e transformamos uma ideia entre amigos em um projeto real.</p></div></article>
+        <article><span>06</span><div><h3>HOJE</h3><p>Temos orgulho da nossa trajetória, da persistência e da coragem de transformar nossa criatividade em realidade.</p></div></article>
+      </div>
+      <p class="story-quote">“Toda grande história começa com uma ideia.<br><span>A nossa começou aqui.</span>”</p>
+    </section>
+    <section id="como-comprar" class="how section-wrap">
+      <p class="eyebrow">SEM COMPLICAÇÃO</p><h2>DO NOSSO SITE<br><span>PARA SUA COLEÇÃO.</span></h2>
+      <div class="steps">
+        <article><span class="step-number">01</span><h3>EXPLORE</h3><p>Explore os produtos disponíveis na vitrine Brick-Headz.</p></article>
+        <article><span class="step-number">02</span><h3>ESCOLHA</h3><p>Confira descrição e preço de cada peça.</p></article>
+        <article><span class="step-number">03</span><h3>COMPRE</h3><p>Clique em “Comprar no Mercado Livre” para abrir o anúncio e concluir o pedido por lá.</p></article>
+      </div>
+    </section>
+    <section class="bottom-banner"><span>YOUR IDEA. YOUR STORY. YOUR BRICK-HEADZ.</span><a href="#historia">NOSSA HISTÓRIA <b>↗</b></a></section>
+  </main>
+  <footer class="footer"><a href="/" class="footer-brand"><img src="/assets/logo.png" alt="Brick-Headz"></a><p>Feita para quem coleciona com paixão.</p><span>© <span id="year"></span> BRICK-HEADZ</span></footer>
+
+  <script>
+    (function () {
+      const grid = document.getElementById('product-grid');
+      const status = document.getElementById('products-status');
+
+      function make(tag, className, text) {
+        const element = document.createElement(tag);
+        if (className) element.className = className;
+        if (text !== undefined && text !== null) element.textContent = String(text);
+        return element;
+      }
+
+      function safeHttpUrl(value) {
+        try {
+          const url = new URL(value, window.location.origin);
+          return (url.protocol === 'https:' || url.protocol === 'http:') ? url.href : '';
+        } catch (_) {
+          return '';
+        }
+      }
+
+      function renderProduct(product) {
+        const card = make('article', 'product-card');
+        const imageWrap = make('div', 'product-image');
+        const imageUrl = safeHttpUrl(product.image || '');
+        if (imageUrl) {
+          const image = make('img');
+          image.src = imageUrl;
+          image.alt = product.name ? 'Imagem de ' + product.name : 'Produto Brick-Headz';
+          image.loading = 'lazy';
+          image.onerror = function () {
+            image.remove();
+            if (!imageWrap.querySelector('.product-placeholder')) imageWrap.appendChild(make('div', 'product-placeholder', 'BH'));
+          };
+          imageWrap.appendChild(image);
+        } else {
+          imageWrap.appendChild(make('div', 'product-placeholder', 'BH'));
+        }
+        if (product.tag && String(product.tag).trim()) imageWrap.appendChild(make('span', 'product-tag', product.tag));
+        card.appendChild(imageWrap);
+
+        const info = make('div', 'product-info');
+        if (product.category) info.appendChild(make('span', 'product-category', product.category));
+        info.appendChild(make('h3', '', product.name || 'Produto Brick-Headz'));
+        if (product.description) info.appendChild(make('p', 'product-description', product.description));
+        if (product.price) info.appendChild(make('p', 'product-price', product.price));
+
+        const buyUrl = safeHttpUrl(product.marketplace_url || '');
+        if (buyUrl) {
+          const link = make('a', 'buy-link');
+          link.href = buyUrl;
+          link.target = '_blank';
+          link.rel = 'noopener noreferrer';
+          link.appendChild(make('span', '', 'COMPRAR'));
+          link.appendChild(make('span', '', '↗'));
+          info.appendChild(link);
+        } else {
+          const unavailable = make('span', 'buy-link buy-link-disabled', 'LINK DE COMPRA INDISPONÍVEL');
+          unavailable.setAttribute('aria-disabled', 'true');
+          info.appendChild(unavailable);
+        }
+        card.appendChild(info);
+        return card;
+      }
+
+      fetch('/content/products.json', { cache: 'no-store' })
+        .then(function (response) {
+          if (!response.ok) throw new Error('Não foi possível carregar o catálogo (' + response.status + ').');
+          return response.json();
+        })
+        .then(function (data) {
+          const products = Array.isArray(data.products) ? data.products : [];
+          grid.replaceChildren();
+          if (!products.length) {
+            grid.appendChild(make('p', 'empty-state', 'Nenhum produto disponível no momento. Volte em breve!'));
+            return;
+          }
+          products.forEach(function (product) { grid.appendChild(renderProduct(product)); });
+          status.textContent = products.length + (products.length === 1 ? ' produto disponível.' : ' produtos disponíveis.');
+        })
+        .catch(function (error) {
+          grid.replaceChildren(make('p', 'empty-state', 'Não foi possível carregar os produtos agora. Tente novamente mais tarde.'));
+          status.textContent = error.message;
+          console.error('Erro ao carregar products.json:', error);
+        });
+
+      const year = document.getElementById('year');
+      if (year) year.textContent = new Date().getFullYear();
+    })();
+  </script>
+</body>
+</html>
