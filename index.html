@@ -5,8 +5,8 @@
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <meta name="theme-color" content="#e92d24">
   <meta name="description" content="Blocky-Headz — figuras colecionáveis, novidades e achados para sua coleção.">
-  <link rel="icon" type="image/png" href="/assets/logo.png">
-  <link rel="apple-touch-icon" href="/assets/logo.png">
+  <link rel="icon" type="image/png" sizes="256x256" href="/assets/favicon.png?v=2">
+  <link rel="apple-touch-icon" href="/assets/favicon.png?v=2">
   <!-- Netlify Identity envia confirmações para a raiz do site por padrão.
        Reencaminhamos tokens de autenticação ao CMS para que o widget os processe. -->
   <script>
@@ -26,14 +26,14 @@
 <body>
   <div class="announcement">FIGURAS, FANDOMS E ACHADOS PARA SUA PRÓXIMA COLEÇÃO</div>
   <header class="site-header">
-    <a class="brand" href="/" aria-label="Blocky-Headz início"><img src="/assets/logo.png" alt=""><span class="brand-title">BLOCKY-HEADZ</span></a>
+    <a class="brand" href="/" aria-label="Blocky-Headz início"><img src="/assets/logo.png" alt="Blocky-Headz"></a>
     <nav class="desktop-nav" aria-label="Navegação principal">
       <a href="#produtos">Produtos</a><a href="#sobre">Quem somos</a><a href="#historia">Nossa história</a>
     </nav>
     <a class="header-cta" href="#sobre">NOSSA HISTÓRIA <span>↘</span></a>
   </header>
   <main>
-    <section class="hero">
+    <section class="hero page-reveal">
       <div class="hero-copy">
         <p class="eyebrow"><span class="eyebrow-dot"></span> PARA QUEM É FÃ DE VERDADE</p>
         <h1>SUA PRÓXIMA<br><em>OBSESSÃO</em><br>COMEÇA AQUI.</h1>
@@ -49,7 +49,7 @@
         <div class="art-bottom">BLOCKY-HEADZ <span>EST. FOR FANS</span></div>
       </div>
     </section>
-    <section class="ticker" aria-label="Destaques"><div>FANDOMS <b>✳</b> COLECIONÁVEIS <b>✳</b> NOVAS DESCOBERTAS <b>✳</b> SUA PRÓXIMA PEÇA <b>✳</b> FANDOMS <b>✳</b> COLECIONÁVEIS <b>✳</b></div></section>
+    <section class="ticker motion-ticker" aria-label="Destaques"><div>FANDOMS <b>✳</b> COLECIONÁVEIS <b>✳</b> NOVAS DESCOBERTAS <b>✳</b> SUA PRÓXIMA PEÇA <b>✳</b> FANDOMS <b>✳</b> COLECIONÁVEIS <b>✳</b></div></section>
     <section id="produtos" class="products-section section-wrap" aria-labelledby="products-title">
       <div class="section-heading">
         <div><p class="eyebrow">ESCOLHA SUA PRÓXIMA PEÇA</p><h2 id="products-title">NOSSA <span>COLEÇÃO.</span></h2></div>
@@ -64,7 +64,7 @@
       </div>
       <p id="products-status" class="products-status" role="status"></p>
     </section>
-    <section id="sobre" class="about">
+    <section id="sobre" class="about page-reveal">
       <div class="about-mark"><img src="/assets/logo.png" alt="Logo Blocky-Headz"><small>DESDE 2026</small></div>
       <div class="about-copy"><p class="eyebrow">QUEM SOMOS · NOSSA HISTÓRIA</p><h2>UMA IDEIA.<br><span>UM GRUPO DE AMIGOS.</span></h2>
       <p>A Blocky-Headz começou em 2026 com uma ideia compartilhada entre amigos: criar bonecos colecionáveis de design quadrado e minimalista, inspirados em figuras de vinil. O que começou como imaginação logo virou um projeto feito com as próprias mãos.</p>
@@ -72,7 +72,7 @@
       <p>Depois vieram as primeiras vendas — e a certeza de que uma ideia entre amigos podia se transformar em algo real. Temos orgulho da nossa trajetória, da persistência e da coragem de transformar criatividade em realidade.</p>
       <a href="#historia" class="text-link">CONHEÇA NOSSA TRAJETÓRIA <span>↘</span></a></div>
     </section>
-    <section id="historia" class="story section-wrap">
+    <section id="historia" class="story section-wrap page-reveal">
       <div class="story-heading"><p class="eyebrow">O INÍCIO DE UMA MEMÓRIA</p><h2>TODA GRANDE HISTÓRIA<br><span>COMEÇA COM UMA IDEIA.</span></h2></div>
       <div class="story-timeline">
         <article><span>01</span><div><h3>A IDEIA</h3><p>Criar bonecos colecionáveis com design quadrado e minimalista, inspirados em figuras de vinil.</p></div></article>
@@ -84,7 +84,7 @@
       </div>
       <p class="story-quote">“Toda grande história começa com uma ideia.<br><span>A nossa começou aqui.</span>”</p>
     </section>
-    <section id="como-comprar" class="how section-wrap">
+    <section id="como-comprar" class="how section-wrap page-reveal">
       <p class="eyebrow">SEM COMPLICAÇÃO</p><h2>DO NOSSO SITE<br><span>PARA SUA COLEÇÃO.</span></h2>
       <div class="steps">
         <article><span class="step-number">01</span><h3>EXPLORE</h3><p>Explore os produtos disponíveis na vitrine Blocky-Headz.</p></article>
@@ -100,6 +100,23 @@
   </dialog>
   <footer class="footer"><a href="/" class="footer-brand"><img src="/assets/logo.png" alt="Blocky-Headz"></a><p>Feita para quem coleciona com paixão.</p><span>© <span id="year"></span> BLOCKY-HEADZ</span></footer>
 
+  <script>
+    (function () {
+      const revealItems = document.querySelectorAll('.page-reveal');
+      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        revealItems.forEach(function (item) { item.classList.add('is-in-view'); });
+      } else if ('IntersectionObserver' in window) {
+        const sectionObserver = new IntersectionObserver(function (entries) {
+          entries.forEach(function (entry) {
+            if (entry.isIntersecting) { entry.target.classList.add('is-in-view'); sectionObserver.unobserve(entry.target); }
+          });
+        }, { threshold: 0.08 });
+        revealItems.forEach(function (item) { sectionObserver.observe(item); });
+      } else {
+        revealItems.forEach(function (item) { item.classList.add('is-in-view'); });
+      }
+    })();
+  </script>
   <script>
     (function () {
       const grid = document.getElementById('product-grid');
