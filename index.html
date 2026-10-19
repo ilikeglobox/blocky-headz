@@ -53,6 +53,10 @@
         <div><p class="eyebrow">ESCOLHA SUA PRÓXIMA PEÇA</p><h2 id="products-title">NOSSA <span>COLEÇÃO.</span></h2></div>
         <p class="section-intro">Conheça os produtos disponíveis na Blocky-Headz e encontre o próximo destaque da sua coleção.</p>
       </div>
+      <div class="product-toolbar">
+        <label class="search-box" for="product-search"><span aria-hidden="true">⌕</span><input id="product-search" type="search" placeholder="Buscar por nome, categoria ou descrição..." autocomplete="off"><button id="clear-search" type="button" aria-label="Limpar busca" hidden>×</button></label>
+        <p id="search-count" class="search-count" aria-live="polite"></p>
+      </div>
       <div id="product-grid" class="product-grid" aria-live="polite">
         <p class="empty-state">Carregando produtos...</p>
       </div>
@@ -88,12 +92,22 @@
     </section>
     <section class="bottom-banner"><span>YOUR IDEA. YOUR STORY. YOUR BLOCKY-HEADZ.</span><a href="#historia">NOSSA HISTÓRIA <b>↗</b></a></section>
   </main>
+  <dialog id="product-modal" class="product-modal" aria-labelledby="modal-product-name">
+    <button class="modal-close" type="button" aria-label="Fechar detalhes">×</button>
+    <div id="modal-product-content" class="modal-product-content"></div>
+  </dialog>
   <footer class="footer"><a href="/" class="footer-brand"><img src="/assets/logo.png" alt="Blocky-Headz"></a><p>Feita para quem coleciona com paixão.</p><span>© <span id="year"></span> BLOCKY-HEADZ</span></footer>
 
   <script>
     (function () {
       const grid = document.getElementById('product-grid');
       const status = document.getElementById('products-status');
+      const search = document.getElementById('product-search');
+      const clearSearch = document.getElementById('clear-search');
+      const searchCount = document.getElementById('search-count');
+      const modal = document.getElementById('product-modal');
+      const modalContent = document.getElementById('modal-product-content');
+      let allProducts = [];
 
       function make(tag, className, text) {
         const element = document.createElement(tag);
@@ -101,83 +115,101 @@
         if (text !== undefined && text !== null) element.textContent = String(text);
         return element;
       }
-
       function safeHttpUrl(value) {
-        try {
-          const url = new URL(value, window.location.origin);
-          return (url.protocol === 'https:' || url.protocol === 'http:') ? url.href : '';
-        } catch (_) {
-          return '';
-        }
+        try { const url = new URL(value, window.location.origin); return (url.protocol === 'https:' || url.protocol === 'http:') ? url.href : ''; }
+        catch (_) { return ''; }
       }
-
-      function renderProduct(product) {
-        const card = make('article', 'product-card');
-        const imageWrap = make('div', 'product-image');
+      function getStores(product) {
+        const stores = Array.isArray(product.stores) ? product.stores.map(function (store) {
+          return { name: String(store.name || '').trim(), logo: safeHttpUrl(store.logo || ''), url: safeHttpUrl(store.url || ''), preferred: store.preferred === true || store.preferred === 'true' };
+        }).filter(function (store) { return store.name && store.url; }) : [];
+        if (!stores.length && safeHttpUrl(product.marketplace_url || '')) stores.push({ name: 'Loja parceira', logo: '', url: safeHttpUrl(product.marketplace_url), preferred: true });
+        stores.sort(function (a,b) { return Number(b.preferred) - Number(a.preferred); });
+        return stores;
+      }
+      function addStoreLink(container, store, featured) {
+        const link = make('a', featured ? 'store-link store-link-preferred' : 'store-link');
+        link.href = store.url; link.target = '_blank'; link.rel = 'noopener noreferrer';
+        if (store.logo) { const logo = make('img', 'store-logo'); logo.src = store.logo; logo.alt = ''; logo.loading = 'lazy'; logo.onerror = function () { logo.remove(); }; link.appendChild(logo); }
+        link.appendChild(make('span', 'store-name', store.name));
+        if (featured) link.appendChild(make('span', 'store-preferred-label', 'PREFERIDA'));
+        link.appendChild(make('span', 'store-arrow', '↗'));
+        container.appendChild(link);
+      }
+      function openProduct(product) {
+        modalContent.replaceChildren();
         const imageUrl = safeHttpUrl(product.image || '');
-        if (imageUrl) {
-          const image = make('img');
-          image.src = imageUrl;
-          image.alt = product.name ? 'Imagem de ' + product.name : 'Produto Blocky-Headz';
-          image.loading = 'lazy';
-          image.onerror = function () {
-            image.remove();
-            if (!imageWrap.querySelector('.product-placeholder')) imageWrap.appendChild(make('div', 'product-placeholder', 'BH'));
-          };
-          imageWrap.appendChild(image);
-        } else {
-          imageWrap.appendChild(make('div', 'product-placeholder', 'BH'));
-        }
+        const visual = make('div', 'modal-product-image');
+        if (imageUrl) { const img = make('img'); img.src = imageUrl; img.alt = product.name || 'Produto'; visual.appendChild(img); }
+        else visual.appendChild(make('div', 'product-placeholder', 'BH'));
+        const details = make('div', 'modal-product-details');
+        if (product.category) details.appendChild(make('span', 'product-category', product.category));
+        details.appendChild(make('h2', '', product.name || 'Produto Blocky-Headz')).id = 'modal-product-name';
+        if (product.price) details.appendChild(make('p', 'product-price modal-price', product.price));
+        if (product.description) details.appendChild(make('p', 'product-description modal-description', product.description));
+        const stores = getStores(product);
+        details.appendChild(make('h3', 'store-heading', stores.length > 1 ? 'ESCOLHA ONDE COMPRAR' : 'COMPRE ONLINE'));
+        const storeList = make('div', 'store-list');
+        if (stores.length) stores.forEach(function (store, i) { addStoreLink(storeList, store, i === 0 && store.preferred); });
+        else storeList.appendChild(make('p', 'empty-stores', 'Links de compra ainda não cadastrados.'));
+        details.appendChild(storeList);
+        modalContent.append(visual, details);
+        if (typeof modal.showModal === 'function') modal.showModal(); else modal.setAttribute('open', 'open');
+        document.body.classList.add('modal-open');
+      }
+      function renderProduct(product, index) {
+        const card = make('article', 'product-card reveal');
+        card.style.setProperty('--reveal-delay', Math.min(index % 4, 3) * 70 + 'ms');
+        const imageWrap = make('button', 'product-image product-image-button');
+        imageWrap.type = 'button'; imageWrap.setAttribute('aria-label', 'Ver detalhes de ' + (product.name || 'produto'));
+        const imageUrl = safeHttpUrl(product.image || '');
+        if (imageUrl) { const image = make('img'); image.src = imageUrl; image.alt = product.name ? 'Imagem de ' + product.name : 'Produto Blocky-Headz'; image.loading = 'lazy'; image.onerror = function () { image.remove(); if (!imageWrap.querySelector('.product-placeholder')) imageWrap.appendChild(make('div', 'product-placeholder', 'BH')); }; imageWrap.appendChild(image); }
+        else imageWrap.appendChild(make('div', 'product-placeholder', 'BH'));
+        imageWrap.appendChild(make('span', 'zoom-hint', 'VER DETALHES ↗'));
+        imageWrap.addEventListener('click', function () { openProduct(product); });
         if (product.tag && String(product.tag).trim()) imageWrap.appendChild(make('span', 'product-tag', product.tag));
         card.appendChild(imageWrap);
-
         const info = make('div', 'product-info');
         if (product.category) info.appendChild(make('span', 'product-category', product.category));
         info.appendChild(make('h3', '', product.name || 'Produto Blocky-Headz'));
         if (product.description) info.appendChild(make('p', 'product-description', product.description));
         if (product.price) info.appendChild(make('p', 'product-price', product.price));
-
-        const buyUrl = safeHttpUrl(product.marketplace_url || '');
-        if (buyUrl) {
-          const link = make('a', 'buy-link');
-          link.href = buyUrl;
-          link.target = '_blank';
-          link.rel = 'noopener noreferrer';
-          link.appendChild(make('span', '', 'COMPRAR'));
-          link.appendChild(make('span', '', '↗'));
-          info.appendChild(link);
-        } else {
-          const unavailable = make('span', 'buy-link buy-link-disabled', 'LINK DE COMPRA INDISPONÍVEL');
-          unavailable.setAttribute('aria-disabled', 'true');
-          info.appendChild(unavailable);
-        }
-        card.appendChild(info);
-        return card;
+        const stores = getStores(product);
+        const actions = make('div', 'product-actions');
+        const detailsButton = make('button', 'details-button', 'VER PRODUTO'); detailsButton.type = 'button'; detailsButton.addEventListener('click', function () { openProduct(product); }); actions.appendChild(detailsButton);
+        if (stores.length) { const quick = make('a', 'buy-link'); quick.href = stores[0].url; quick.target = '_blank'; quick.rel = 'noopener noreferrer'; quick.append(make('span', '', 'COMPRAR EM ' + stores[0].name.toUpperCase()), make('span', '', '↗')); actions.appendChild(quick); }
+        else actions.appendChild(make('span', 'buy-link buy-link-disabled', 'LINK DE COMPRA INDISPONÍVEL'));
+        info.appendChild(actions); card.appendChild(info); return card;
       }
-
-      fetch('/content/products.json', { cache: 'no-store' })
-        .then(function (response) {
-          if (!response.ok) throw new Error('Não foi possível carregar o catálogo (' + response.status + ').');
-          return response.json();
-        })
-        .then(function (data) {
-          const products = Array.isArray(data.products) ? data.products : [];
-          grid.replaceChildren();
-          if (!products.length) {
-            grid.appendChild(make('p', 'empty-state', 'Nenhum produto disponível no momento. Volte em breve!'));
-            return;
-          }
-          products.forEach(function (product) { grid.appendChild(renderProduct(product)); });
-          status.textContent = products.length + (products.length === 1 ? ' produto disponível.' : ' produtos disponíveis.');
-        })
-        .catch(function (error) {
-          grid.replaceChildren(make('p', 'empty-state', 'Não foi possível carregar os produtos agora. Tente novamente mais tarde.'));
-          status.textContent = error.message;
-          console.error('Erro ao carregar products.json:', error);
-        });
-
-      const year = document.getElementById('year');
-      if (year) year.textContent = new Date().getFullYear();
+      function renderProducts() {
+        const term = (search.value || '').trim().toLocaleLowerCase('pt-BR');
+        const filtered = allProducts.filter(function (p) { return [p.name, p.category, p.description, p.tag].join(' ').toLocaleLowerCase('pt-BR').includes(term); });
+        grid.replaceChildren();
+        if (!filtered.length) grid.appendChild(make('p', 'empty-state', term ? 'Nenhum produto corresponde à sua busca.' : 'Nenhum produto disponível no momento. Volte em breve!'));
+        else filtered.forEach(function (product, index) { grid.appendChild(renderProduct(product, index)); });
+        searchCount.textContent = term ? filtered.length + (filtered.length === 1 ? ' resultado' : ' resultados') : '';
+        status.textContent = allProducts.length + (allProducts.length === 1 ? ' produto disponível.' : ' produtos disponíveis.');
+        observeReveals();
+      }
+      function observeReveals() {
+        const items = document.querySelectorAll('.reveal:not(.is-visible)');
+        if (!('IntersectionObserver' in window)) { items.forEach(function (item) { item.classList.add('is-visible'); }); return; }
+        const observer = new IntersectionObserver(function (entries) { entries.forEach(function (entry) { if (entry.isIntersecting) { entry.target.classList.add('is-visible'); observer.unobserve(entry.target); } }); }, { threshold: 0.12 });
+        items.forEach(function (item) { observer.observe(item); });
+      }
+      search.addEventListener('input', function () { clearSearch.hidden = !search.value; renderProducts(); });
+      clearSearch.addEventListener('click', function () { search.value = ''; clearSearch.hidden = true; search.focus(); renderProducts(); });
+      modal.querySelector('.modal-close').addEventListener('click', function () { modal.close(); });
+      modal.addEventListener('click', function (event) { if (event.target === modal) modal.close(); });
+      modal.addEventListener('close', function () { document.body.classList.remove('modal-open'); });
+      document.addEventListener('keydown', function (event) { if (event.key === 'Escape' && modal.open) modal.close(); });
+      fetch('/content/products.json', { cache: 'no-store' }).then(function (response) {
+        if (!response.ok) throw new Error('Não foi possível carregar o catálogo (' + response.status + ').');
+        return response.json();
+      }).then(function (data) { allProducts = Array.isArray(data.products) ? data.products : []; renderProducts(); })
+        .catch(function (error) { grid.replaceChildren(make('p', 'empty-state', 'Não foi possível carregar os produtos agora. Tente novamente mais tarde.')); status.textContent = error.message; console.error('Erro ao carregar products.json:', error); });
+      const year = document.getElementById('year'); if (year) year.textContent = new Date().getFullYear();
+      observeReveals();
     })();
   </script>
 </body>
