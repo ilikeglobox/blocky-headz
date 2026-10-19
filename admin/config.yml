@@ -1,0 +1,43 @@
+backend:
+  name: git-gateway
+  branch: main
+
+media_folder: "assets/products"
+public_folder: "/assets/products"
+
+locale: "pt"
+
+site_url: /
+display_url: /
+
+collections:
+  - name: "catalogo"
+    label: "Catálogo de produtos"
+    files:
+      - name: "produtos"
+        label: "Produtos da vitrine"
+        file: "content/products.json"
+        format: "json"
+        fields:
+          - label: "Produtos"
+            name: "products"
+            widget: "list"
+            summary: "{{fields.name}} — {{fields.price}}"
+            fields:
+              - { label: "Nome do produto", name: "name", widget: "string" }
+              - { label: "Categoria", name: "category", widget: "string", default: "Colecionáveis" }
+              - { label: "Descrição", name: "description", widget: "text", required: false }
+              - { label: "Preço exibido", name: "price", widget: "string", required: false, hint: "Ex.: R$ 149,90" }
+              - { label: "Foto do produto", name: "image", widget: "image", required: false }
+              - { label: "Link antigo de compra (compatibilidade)", name: "marketplace_url", widget: "string", required: false, hint: "Usado se você ainda não cadastrar lojas na lista abaixo" }
+              - label: "Lojas onde este produto é vendido"
+                name: "stores"
+                widget: "list"
+                required: false
+                summary: "{{fields.name}} — {{fields.url}}"
+                fields:
+                  - { label: "Nome da loja/site", name: "name", widget: "string", hint: "Ex.: Mercado Livre, Amazon, loja oficial" }
+                  - { label: "Logo da loja", name: "logo", widget: "image", required: false, hint: "Envie a imagem do logotipo da loja" }
+                  - { label: "Link direto para comprar", name: "url", widget: "string", hint: "URL completa começando por https://" }
+                  - { label: "Marcar como loja preferida", name: "preferred", widget: "boolean", default: false, required: false, hint: "Marque somente uma loja como preferida por produto" }
+              - { label: "Etiqueta", name: "tag", widget: "string", required: false, hint: "Ex.: LANÇAMENTO, DESTAQUE" }
