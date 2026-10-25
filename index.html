@@ -164,7 +164,8 @@
         const details = make('div', 'modal-product-details');
         if (product.category) details.appendChild(make('span', 'product-category', product.category));
         details.appendChild(make('h2', '', product.name || 'Produto Blocky-Headz')).id = 'modal-product-name';
-        if (product.price) details.appendChild(make('p', 'product-price modal-price', product.price));
+        details.appendChild(make('p', 'product-price modal-price', formatPrice(product.livePrice)));
+        details.appendChild(make('p', 'availability-status', availabilityText(product.availability)));
         if (product.description) details.appendChild(make('p', 'product-description modal-description', product.description));
         const stores = getStores(product);
         details.appendChild(make('h3', 'store-heading', stores.length > 1 ? 'ESCOLHA ONDE COMPRAR' : 'COMPRE ONLINE'));
@@ -175,6 +176,13 @@
         modalContent.append(visual, details);
         if (typeof modal.showModal === 'function') modal.showModal(); else modal.setAttribute('open', 'open');
         document.body.classList.add('modal-open');
+      }
+      function formatPrice(value) {
+        return Number.isFinite(value) ? new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(value) : 'Preço não confirmado';
+      }
+      function availabilityText(value) {
+        if (!value || value.confirmed !== true) return 'Disponibilidade não confirmada';
+        return value.quantity > 0 ? 'Em estoque: ' + value.quantity : 'Indisponível no momento';
       }
       function renderProduct(product, index) {
         const card = make('article', 'product-card reveal');
@@ -192,7 +200,8 @@
         if (product.category) info.appendChild(make('span', 'product-category', product.category));
         info.appendChild(make('h3', '', product.name || 'Produto Blocky-Headz'));
         if (product.description) info.appendChild(make('p', 'product-description', product.description));
-        if (product.price) info.appendChild(make('p', 'product-price', product.price));
+        info.appendChild(make('p', 'product-price', formatPrice(product.livePrice)));
+        info.appendChild(make('p', 'availability-status', availabilityText(product.availability)));
         const stores = getStores(product);
         const actions = make('div', 'product-actions');
         const detailsButton = make('button', 'details-button', 'VER PRODUTO'); detailsButton.type = 'button'; detailsButton.addEventListener('click', function () { openProduct(product); }); actions.appendChild(detailsButton);
@@ -222,7 +231,7 @@
       modal.addEventListener('click', function (event) { if (event.target === modal) modal.close(); });
       modal.addEventListener('close', function () { document.body.classList.remove('modal-open'); });
       document.addEventListener('keydown', function (event) { if (event.key === 'Escape' && modal.open) modal.close(); });
-      fetch('/content/products.json', { cache: 'no-store' }).then(function (response) {
+      fetch('/.netlify/functions/gubee-data', { cache: 'no-store' }).then(function (response) {
         if (!response.ok) throw new Error('Não foi possível carregar o catálogo (' + response.status + ').');
         return response.json();
       }).then(function (data) { allProducts = Array.isArray(data.products) ? data.products : []; renderProducts(); })

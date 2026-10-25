@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#e92d24"><title>Estoque e pedidos | Blocky-Headz</title>
+  <link rel="stylesheet" href="/styles.css">
+  <style>
+    .inventory-admin{max-width:1180px;margin:0 auto;padding:48px 6vw 80px}.inventory-head{display:flex;justify-content:space-between;align-items:center;gap:20px;margin-bottom:24px}.inventory-head h1{font:900 clamp(36px,5vw,60px)/.95 "Barlow Condensed",sans-serif;margin:0}.inventory-head h1 span{color:var(--red)}.inventory-nav{display:flex;gap:16px;font-size:12px;font-weight:800;align-items:center}.inventory-nav button{border:0;background:var(--red);color:white;padding:11px 14px;font-weight:800;cursor:pointer}.inventory-nav button:disabled{opacity:.55;cursor:wait}.inventory-summary{padding:14px 18px;background:#fffdf8;border:1px solid var(--line);margin-bottom:20px;font-size:13px}.inventory-table-wrap{overflow:auto;background:#fffdf8;border:1px solid var(--line)}.inventory-table{width:100%;border-collapse:collapse;text-align:left}.inventory-table th,.inventory-table td{padding:14px;border-bottom:1px solid var(--line);font-size:12px;vertical-align:top;white-space:pre-line}.inventory-table th{font-size:10px;letter-spacing:.08em;text-transform:uppercase;background:var(--ink);color:white}.inventory-low{color:#a3261e;font-weight:800}.inventory-orders{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px;margin-top:18px}.inventory-order{padding:16px;border:1px solid var(--line);background:#fffdf8;font-size:12px}.inventory-order h3{font:800 18px "Barlow Condensed",sans-serif;margin:0 0 10px}.inventory-order p{margin:5px 0}.inventory-muted{color:var(--muted)}.inventory-error{padding:18px;background:#fff0ed;color:#8c241c}.inventory-login{min-height:40vh;display:grid;place-content:center;text-align:center;gap:14px}.inventory-login button{border:0;background:var(--red);color:white;padding:13px 20px;font-weight:800;cursor:pointer}
+  </style>
+</head>
+<body>
+  <div class="announcement">PAINEL INTERNO · DADOS CONSULTADOS NA GUBEE</div>
+  <main class="inventory-admin">
+    <div class="inventory-head"><h1>ESTOQUE <span>& PEDIDOS.</span></h1><nav class="inventory-nav"><button id="connect-gubee" type="button">Conectar Gubee</button><a href="/admin/">CMS</a><a href="/">Vitrine</a></nav></div>
+    <section id="inventory-state" class="inventory-summary" role="status">Verificando sessão...</section>
+    <section id="inventory-content" hidden>
+      <h2>Produtos</h2><div id="inventory-products"></div>
+      <h2>Pedidos na fila Gubee</h2><p class="inventory-muted">Somente consulta, até 50 pedidos por status. Este painel não confirma nem remove pedidos da fila.</p><div id="inventory-orders" class="inventory-orders"></div>
+    </section>
+  </main>
+  <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+  <script src="/admin/inventory.js"></script>
+</body>
+</html>

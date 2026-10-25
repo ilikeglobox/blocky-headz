@@ -1,0 +1,14 @@
+{
+  "name": "blocky-headz",
+  "private": true,
+  "type": "module",
+  "engines": { "node": ">=22" },
+  "scripts": {
+    "test": "node --test",
+    "check": "node --check admin/inventory.js && node --check netlify/functions/gubee-data.mjs && node --check netlify/functions/gubee-admin.mjs && node --check netlify/functions/gubee-webhook.mjs && node --check netlify/functions/gubee-oauth.mjs && node --check netlify/lib/gubee.mjs"
+  },
+  "dependencies": {
+    "@netlify/blobs": "^10.5.0",
+    "@netlify/identity": "^1.1.0"
+  }
+}
