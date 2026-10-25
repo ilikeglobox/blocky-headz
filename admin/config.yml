@@ -28,6 +28,7 @@ collections:
               - { label: "Categoria", name: "category", widget: "string", default: "Colecionáveis" }
               - { label: "Descrição", name: "description", widget: "text", required: false }
               - { label: "Preço exibido", name: "price", widget: "string", required: false, hint: "Ex.: R$ 149,90" }
+              - { label: "SKU na Gubee", name: "sku", widget: "string", required: false, hint: "SKU exato cadastrado na Gubee. Deixe vazio até confirmar o SKU." }
               - { label: "Foto do produto", name: "image", widget: "image", required: false }
               - { label: "Link antigo de compra (compatibilidade)", name: "marketplace_url", widget: "string", required: false, hint: "Usado se você ainda não cadastrar lojas na lista abaixo" }
               - label: "Lojas onde este produto é vendido"
